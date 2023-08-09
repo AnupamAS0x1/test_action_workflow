@@ -11,4 +11,7 @@ jobs:
 
     steps:
       - name: Echo Pull Request Message
-        run: echo "A new pull request has been created!"
+        run: |
+          echo "Hello there"
+          echo "A new pull request has been created!"
+          
