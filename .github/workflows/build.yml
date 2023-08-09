@@ -1,14 +1,29 @@
-name: Echo on Pull Request
+name: Deploy docs
 
 on:
-  pull_request:
+  workflow_run:
+    workflows: ['Publish Package']
     types:
-      - opened
+      - completed
 
 jobs:
-  echo_on_pull_request:
+  deploy-docs:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
 
     steps:
-      - name: Echo Pull Request Message
-        run: echo "A new pull request has been created!"
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.workflow_run.head_commit.sha }} # checkout workflow head commit
+
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build docs
+        run: npm run build-docs
