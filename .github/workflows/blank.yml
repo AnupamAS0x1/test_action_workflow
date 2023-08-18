@@ -23,7 +23,7 @@ jobs:
       - name: Report missing headers
         run: ./contrib/scripts/report-license-headers.sh
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
           COMMIT_SHA: ${{ github.event.workflow_run.head_sha }}
         shell: bash
 
